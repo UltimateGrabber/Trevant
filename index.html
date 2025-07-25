@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trevant & Co. Discord</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #333;
+      overflow-x: hidden;
+      background: #000;
+    }
+
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background-image 1s ease-in-out;
+      animation: zoomBackground 10s infinite;
+      z-index: -1;
+    }
+
+    @keyframes zoomBackground {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      opacity: 0;
+      animation: slideInDown 0.5s ease forwards;
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header h1 {
+      font-size: 5.85rem;
+      margin: 0;
+      white-space: pre-line;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+    }
+
+    header p {
+      font-size: 1.61rem;
+      margin-top: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .black-section {
+      background-color: #111;
+      color: white;
+      width: 100%;
+      padding: 2rem 1rem 4rem;
+      text-align: left;
+      border-radius: 0;
+    }
+
+    .black-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .black-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .black-section p,
+    .black-section a {
+      color: white;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      text-decoration: none;
+    }
+
+    .join-button {
+      display: inline-block;
+      background-color: #7289da;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      margin: 1rem 0;
+      font-size: 1.2rem;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .join-button:hover {
+      background-color: #4752c4;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .bouncing-button {
+      animation: bounce 1s infinite;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .feature {
+      background: #222;
+      padding: 1rem;
+      border-radius: 5px;
+      width: 42%;
+      min-width: 240px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      color: white;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .feature:hover {
+      box-shadow: 0 0 15px 3px rgba(255, 255, 255, 0.6);
+      transform: translateY(-5px);
+    }
+
+    .discord-widget-container {
+      max-width: 800px;
+      margin: 2rem auto 0 auto;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      padding: 2rem 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer > div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    footer > div > div {
+      flex: 1;
+      min-width: 220px;
+      margin-bottom: 1.5rem;
+    }
+
+    footer img {
+      width: 80px;
+      margin-bottom: 1rem;
+    }
+
+    footer h3 {
+      margin-bottom: 1rem;
+    }
+
+    footer p {
+      margin: 0.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      .feature {
+        width: 100%;
+      }
+
+      .black-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .discord-widget-container iframe {
+        width: 100% !important;
+        height: 400px !important;
+      }
+
+      footer > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    /* Popup Modal */
+    #termsModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #termsModalContent {
+      background: #222;
+      color: white;
+      padding: 2rem;
+      max-width: 600px;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    #termsModalContent h2 {
+      margin-top: 0;
+      color: #fff;
+    }
+
+    #termsButtons {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    #termsButtons button {
+      padding: 0.6rem 1.2rem;
+      margin: 0 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #agreeBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #disagreeBtn {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-container"></div>
+
+  <!-- Terms Modal -->
+  <div id="termsModal">
+    <div id="termsModalContent">
+      <h2>Terms and Conditions</h2>
+      <p>To access this site, you must agree to the following terms and conditions:</p>
+      <ul>
+        <li>Introduction: Welcome to Trevant & Co. By accessing this site, you agree to our terms and conditions.</li>
+          <li>Use of the Website: You agree to use the website only for lawful purposes and in a way that does not infringe the rights of, restrict or inhibit anyone else's use and enjoyment of the website.</li>
+          <li>Intellectual Property: All content on this website, including text, graphics, logos, is the property of Trevant & Co. or its content suppliers and is protected by copyright laws.</li>
+          <li>Prohibited Conduct: No harassment, spam, or harmful behavior is allowed in the discord server.</li>
+          <li>Limitation of Liability: We are not liable for any damages arising from use.</li>
+          <li>Privacy: Your information is protected under our privacy policy.</li>
+          <li>Age Limit: The consumers of some of our online products will have to be 18+ to use certain features on this site.</li>
+        </ol>
+      </ul>
+      <div id="termsButtons">
+        <button id="agreeBtn">I Agree</button>
+        <button id="disagreeBtn">I Don't Agree</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1>Welcome to<br>Trevant &amp; Co.</h1>
+    <p>Join our movie night Discord community!</p>
+    <a href="https://discord.gg/Qsg5vuuVns" class="join-button bouncing-button">Join Now!</a>
+  </header>
+
+  <div class="black-section">
+    <div class="black-section-inner">
+      <section class="about">
+        <h2>About Us</h2>
+        <p>We thought instead of keeping movie night to just a couple of friends, to expand it out to other movie lovers...</p>
+      </section>
+
+      <section class="features">
+        <!-- Info Boxes -->
+        <div class="feature">
+          <h3>Perfect Moderation team</h3>
+          <p>24/7 moderation team ready to handle any situation.</p>
+        </div>
+        <div class="feature">
+          <h3>Free Spins</h3>
+          <p>Earn free spins by watching movies with us.</p>
+        </div>
+        <div class="feature">
+          <h3>High Quality Movies</h3>
+          <p>Enjoy top-tier streaming quality every movie night.</p>
+        </div>
+        <div class="feature">
+          <h3>Trivia Games Night</h3>
+          <p>Win prizes by answering movie trivia questions.</p>
+        </div>
+        <div class="feature">
+          <h3>Giveaways</h3>
+          <p>Frequent giveaways based on community events and milestones.</p>
+        </div>
+        <div class="feature">
+          <h3>Choose The Movie Scheme</h3>
+          <p>Vote on what movie gets streamed next!</p>
+        </div>
+      </section>
+
+      <div class="discord-widget-container">
+        <iframe src="https://discord.com/widget?id=1340804635362988094&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-same-origin allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="trevant-logo.png" alt="Trevant &amp; Co. Logo" />
+        <p style="max-width: 250px; text-align: center;">
+          Join Trevant &amp; Co. for weekly movie nights, chill vibes, and fun rewards. Be part of something fun and cinematic!
+        </p>
+      </div>
+
+      <div>
+        <h3>Get in Touch</h3>
+        <p>
+          <i class="fab fa-discord" style="margin-right: 6px;"></i>
+          <a href="https://discord.gg/Qsg5vuuVns">Join Our Discord</a>
+        </p>
+        <p>
+          <i class="fas fa-envelope" style="margin-right: 6px;"></i>
+          <a href="mailto:trevantco25@gmail.com">Contact Us</a>
+        </p>
+      </div>
+
+      <div>
+        <h3>Legal Content</h3>
+        <p>
+          <i class="fas fa-file-alt" style="margin-right: 6px;"></i>
+          <a href="terms-and-conditions.html">Terms and Conditions</a>
+        </p>
+        <p>
+          <i class="fas fa-shield-alt" style="margin-right: 6px;"></i>
+          <a href="privacy-policy.html">Privacy Policy</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("agreeBtn").onclick = function () {
+      document.getElementById("termsModal").style.display = "none";
+    };
+    document.getElementById("disagreeBtn").onclick = function () {
+      window.location.href = "https://www.google.com"; // Redirect elsewhere
+    };
+  </script>
+</body>
+</html>
